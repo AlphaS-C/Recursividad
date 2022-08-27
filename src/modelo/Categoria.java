@@ -6,7 +6,7 @@ public class Categoria {
 
 	private String nombre;
 	private ArrayList<Producto> listaProductos;
-	private Categoria subcategoria;
+	private ArrayList<Categoria> subCategoria;
 	
 	
 	public void setListaProductos(ArrayList<Producto> listaProductos) {
@@ -16,15 +16,17 @@ public class Categoria {
 	public Categoria(String nombre) {
 		super();
 		this.nombre = nombre;
+		listaProductos = new ArrayList<Producto>();
+		subCategoria = new ArrayList<Categoria>();
 	}
 	
-	public Categoria(String nombre, ArrayList<Producto> listaProductos, Categoria subcategoria) {
+	public Categoria(String nombre, ArrayList<Producto> listaProductos, ArrayList<Categoria> subcategoria) {
 		super();
 		this.nombre = nombre;
 		this.listaProductos = listaProductos;
-		this.subcategoria = subcategoria;
+		this.subCategoria = subcategoria;
 	}
-	
+
 	
 	public String getNombre() {
 		return nombre;
@@ -32,8 +34,8 @@ public class Categoria {
 	public ArrayList<Producto> getListaProductos() {
 		return listaProductos;
 	}
-	public Categoria getSubcategoria() {
-		return subcategoria;
+	public ArrayList<Categoria> getSubcategoria() {
+		return subCategoria;
 	}
 	
 }
