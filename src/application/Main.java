@@ -26,7 +26,7 @@ public class Main {
 		Categoria subCat5 = new Categoria("Subcategoria 5");
 
 		// se añade un producto a la subcategoria 3
-		subCat3.getListaProductos().add(producto);
+//		subCat3.getListaProductos().add(producto);
 		// se añaden subcategorias dentro de otras subcategorias
 		subCat4.getSubcategoria().add(subCat5);
 		subCat3.getSubcategoria().add(subCat4);
@@ -37,8 +37,8 @@ public class Main {
 		categoriaP2.getSubcategoria().add(new Categoria("sub6"));
 		categoriaP2.getSubcategoria().add(new Categoria("sub7"));
 		categoriaP2.getSubcategoria().get(1).getSubcategoria().add(new Categoria("sub8"));
-
-		categoriaP3.getListaProductos().add(producto2);
+		
+		categoriaP2.getSubcategoria().get(1).getSubcategoria().get(0).getListaProductos().add(producto);
 		
 		categorias.add(categoriaP);
 		categorias.add(categoriaP2);
@@ -55,7 +55,7 @@ public class Main {
 	}
 
 	public static void buscarProducto(Empresa empresa, String color) {
-		if (buscarProducto(color, empresa.getListaCategorias(), 0, 0)) {
+		if (buscarProducto(color, empresa.getListaCategorias(), 0, 0, false)) {
 			System.out.println("Existe un producto de color " + color + "!");
 		} else {
 			System.out.println("No existe ningun producto de color " + color + "!");
@@ -66,27 +66,27 @@ public class Main {
 		return buscarPrecio(precio, empresa.getListaCategorias(), 0, 0, new ArrayList<Producto>());
 	}
 	
-	public static boolean buscarProducto(String color, ArrayList<Categoria> listaCategorias, int indCat, int indProd) {
+	public static boolean buscarProducto(String color, ArrayList<Categoria> listaCategorias, int indCat, int indProd, boolean existe) {
 		Producto producto;
 		Categoria auxCat;
-		boolean flag = false;
+		boolean flag = existe;
 
 		if (indCat < listaCategorias.size()) { // pregunto si la lista de categorias de la empresa esta vacia o si mi
 												// indice es mayor al total
 			auxCat = listaCategorias.get(indCat);
-			flag = buscarProducto(color, listaCategorias, indCat + 1, indProd); // pongo a buscar si hay un elemento en la
+			flag = buscarProducto(color, listaCategorias, indCat + 1, indProd, flag); // pongo a buscar si hay un elemento en la
 																			// siguiente posicion
-			if (auxCat.getSubcategoria().size() != 0) { // pregunto si la categoria actual tiene una subcategoria o si
+			if (indCat <= auxCat.getSubcategoria().size()) { // pregunto si la categoria actual tiene una subcategoria o si
 														// esta vacia
 				ArrayList<Categoria> listaCat = auxCat.getSubcategoria();
-				flag = buscarProducto(color, listaCat, 0, indProd); // mando la lista de categorias de la nueva categoria como
+				flag = buscarProducto(color, listaCat, 0, indProd, flag); // mando la lista de categorias de la nueva categoria como
 																// parametro y reinicio el contador en 0 para que
 																// empieze a bucar de nuevo
 			} 
 				if (indProd < auxCat.getListaProductos().size()) { // metodo que busca entre una lista de productos cada
 																	// producto, es recorrer un arraylist recursivamente
 					producto = auxCat.getListaProductos().get(indProd);
-					flag = buscarProducto(color, listaCategorias, indCat, indProd + 1);
+					flag = buscarProducto(color, listaCategorias, indCat, indProd + 1, flag);
 					if (producto.getColor() == color) {
 						flag = true;
 					}
@@ -106,9 +106,11 @@ public class Main {
 		if (indCat < listaCategorias.size()) {
 			auxCat = listaCategorias.get(indCat);
 			productos = buscarPrecio(precio, listaCategorias, indCat + 1, indProd, productos); 
-			if (indCat < auxCat.getSubcategoria().size()) { 
+
+			if (indCat <= auxCat.getSubcategoria().size()) { 
 				ArrayList<Categoria> listaCat = auxCat.getSubcategoria();
 				productos = buscarPrecio(precio, listaCat, 0, indProd, productos);
+
 			}
 				if (indProd < auxCat.getListaProductos().size()) {
 					Producto producto = auxCat.getListaProductos().get(indProd);
