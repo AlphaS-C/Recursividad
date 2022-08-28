@@ -2,13 +2,9 @@ package application;
 
 import java.util.ArrayList;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 import modelo.Categoria;
 import modelo.Empresa;
 import modelo.Producto;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 public class Main {
 
@@ -16,7 +12,7 @@ public class Main {
 
 		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 		// creo dos productos
-		Producto producto = new Producto("rojo", 8000, "producto rojo");
+		Producto producto = new Producto("rojo", 8000, "producto rojo"); // parametros: color, precio, nombre
 		Producto producto2 = new Producto("azul", 11000, "producto azul");
 		// las tres categorias principales que tendrá la empresa
 		Categoria categoriaP = new Categoria("Categoria Principal 1");
@@ -49,7 +45,7 @@ public class Main {
 		categorias.add(categoriaP3);
 
 
-		Empresa emp1 = new Empresa("los pollos hermanos", categorias);
+		Empresa emp1 = new Empresa("los pollos hermanos", categorias); // parametros: nombre, lista de categorias
 		System.out.println("-----------------------------------\nMetodo que dice si existe un producto rojo:");
 		buscarProducto(emp1, "rojo");
 		System.out.println("-----------------------------------\nMetodo que retorna los productos con precio mayor a 10000:");
